@@ -1,5 +1,5 @@
 
-function randomWeapon(){
+export function randomWeapon(){
   let WeapList = ["@Item[tj6TZ5aqxUgy6sjw]{Battleaxe}","@Item[aBKNBAhnwlRMWO3B]{Blackjack}","@Item[ftfcg8TU3FGpUnfo]{Blowgun}","@Item[oJSCvdpiqKPvwNxf]{Club}"];
   let NumWeap = "1d" + WeapList.size;
   let randWeap = new Roll(NumWeap,0,0);
@@ -7,7 +7,7 @@ function randomWeapon(){
   return WeapList(randWeap.total);
 }
 
-function needsWeapon(TDoc){
+export function needsWeapon(TDoc){
   let x = 0;
   while (TDoc.actor.data.items.size != x) {
     if (Tdoc.actor.data.items(x).value.data.name === "as weapon"){return true;}
