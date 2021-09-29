@@ -1,14 +1,11 @@
-import {needsWeapon} from "./utils.js";
-import {randomWeapon} from "./utils.js";
+import { needsWeapon, randomWeapon, replaceWeapon } from "./utils.js";
 
-Hook.on("createToken", (TDoc, spl) => {
-  if (TDoc.actor.type === "NPC") {
-    if (needsWeapon(TDoc)) {
-      console.log("True");
-      let rWeap = randomWeapon();
-      console.log (rWeap);
-      //replaceWeapon(TDoc.actor.items("as weapon"), rWeap);
-    }
-  }
-}
-      
+Hooks.on("createToken", (TDoc) => {
+	
+	if (TDoc.actor.type === "NPC") {  // check if it's an NPC
+	if (needsWeapon(TDoc)) {  // if the need a 'weapon'
+		  let rWeap = randomWeapon();  // get the random weapon from list
+		  replaceWeapon(TDoc, rWeap); // swap out placeholder with real weapon
+		}
+	}
+});
