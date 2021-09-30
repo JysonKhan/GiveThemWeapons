@@ -2,7 +2,7 @@
   "name": "GiveThemWeapons",
   "title": "Give Them Weapons",
   "description": "To assign NPC's a weapon if the is a listing in sheet for 'as weapon' when the token is dropped onto the canvas.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "JysonKhan",
   "minimumCoreVersion": "0.8.0",
   "compatibleCoreVersion": "0.8.9",
