@@ -1,6 +1,6 @@
 export function randomWeapon(){
-  let WeapList = ["tj6TZ5aqxUgy6sjw", "aBKNBAhnwlRMWO3B", "ftfcg8TU3FGpUnfo", "oJSCvdpiqKPvwNxf"]; // filling array with weapon keys
-  let NumWeap = "1d4-1"; // roll formula
+  let WeapList = ["tj6TZ5aqxUgy6sjw", "aBKNBAhnwlRMWO3B", "ftfcg8TU3FGpUnfo", "oJSCvdpiqKPvwNxf", "mcoPaYk81GuOOIdp", "owOkoQ0bsfXOGP6G", "Bu8difrxPXWUh7QX", "ZR5KKkQHg712w9JZ", "OBpI2EwE6fWg5U94", "gCmkGBpqIpnOlNyq", "hC9dla8RvtItJnMz", "9I46q2hvXd5Gz9Z7", "6ssBeWRPt758WoBe", "wxvHDfp7mqMEAkBm", "eSiIGJbvZet5hg6K", "pJVc66cExUrBVuKk", "gaKUrbCzpOrTfW8E", "nryGtQWdjxYyovYK", "V0nEeB5XKp8YpMMD", "Su0pn7aa8TII7VnJ", "Q8jYevcgAgTvOmAc"]; // filling array with weapon keys
+  let NumWeap = "1d21-1"; // roll formula
   let randWeap = new Roll(NumWeap); // get new roll based on formula
   randWeap.evaluate(); // and get results
   return WeapList[randWeap.total]; // return results
