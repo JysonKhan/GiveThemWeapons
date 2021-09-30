@@ -1,11 +1,12 @@
 {
-  "name": "givethemweapons",
+  "name": "GiveThemWeapons",
   "title": "Give Them Weapons",
   "description": "To assign NPC's a weapon if the is a listing in sheet for 'as weapon' when the token is dropped onto the canvas.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "JysonKhan",
   "minimumCoreVersion": "0.8.0",
   "compatibleCoreVersion": "0.8.9",
   "system": "dcc",
-  "scripts": ["./utils.js","./give-weapon.js"]
+  "esmodules": ["scripts/give-weapon.js"]
+  
 }
