@@ -8,8 +8,8 @@
   "compatibleCoreVersion": "0.8.9",
   "system": "dcc",
   "esmodules": ["scripts/give-weapon.js"],
-  "url": "",
-  "manifest": "",
-  "download": ""
+  "url": ,
+  "manifest": ,
+  "download": 
   
 }
