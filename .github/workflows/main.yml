@@ -1,41 +1,67 @@
-# This is a basic workflow to help you get started with Actions
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: CI
+name: Update Release's
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      
-      - name: Zip Files
-        working-directory: ./
-        run: zip -r ./module.zip ./*
-
-      - name: Get Version
-        shell: bash
-        id: get-version
-        run: echo "::set-output name=version::$(node ./.github/workflows/get-version.js)"
-
-      - name: Create Release
-        id: create-release
-        uses: ncipollo/release-action@v1.7.3
+    - uses: actions/checkout@v2
+    - name: Manifest and Download Links
+      id: manifest_link_version
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: './src/module.json'
+      env:
+        version: ${{github.event.release.tag_name}}
+        manifest: https://github.com/${{github.repository}}/releases/latest/download/module.json
+        download: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.zip
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
+    - name: Archive dist folder
+      uses: actions/upload-artifact@v2
+      with:
+        name: module-download
+        path: dist/
+    - name: Archive module json
+      uses: actions/upload-artifact@v2
+      with:
+        name: module
+        path: dist/module.json
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download module download file
+        uses: actions/download-artifact@v2
         with:
-          allowUpdates: true
-          name: v${{steps.get-version.outputs.version}}
+          name: module-download
+          path: module-download
+      - name: Download module.json
+        uses: actions/download-artifact@v2
+        with:
+          name: module
+      # Create a zip file with all files required by the module to add to the release
+      - run: (cd module-download; zip -r ../module.zip .)
+      - name: Update Release with Files
+        id: create_version_release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true # Set this to false if you want to prevent updating existing releases
+          name: ${{ github.event.release.name }}
           draft: false
           prerelease: false
-          token: ${{secrets.GITHUB_TOKEN}}
-          artifacts: ./module.zip, ./module.json
-          tag: v${{steps.get-version.outputs.version}}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: './module.json, ./module.zip'
+          tag: ${{ github.event.release.tag_name }}
+          body: ${{ github.event.release.body }}
